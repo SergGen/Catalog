@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="css/style__catalog.css" rel="stylesheet">
+    <script src="script.js"></script>
+    <title>Shop-Catalog</title>
+</head>
+<body>
+<header class="header">
+    <div class="container header__elements">
+        <div class="header__left">
+            <a href="#" class="header__logo"><img src="img/Logo.png" alt="logo"></a>
+            <button class="header__search _icon-search"></button>
+        </div>
+        <div class="header__right">
+            <input type="checkbox" id="menu-checkbox">
+            <label for="menu-checkbox">
+                <img src="img/burger.svg" alt="burger" class="header__menu-button">
+            </label>
+            <a href="#" class="header__profile"><img src="img/man.svg" alt="man" class="header__profile_img"></a>
+            <a href="#" class="header__cart">
+                <img src="img/cart.svg" alt="cart" class="header__cart_img">
+                <span class="header__cart_circle"></span>
+            </a>
+            <div class="cart">
+                <button class="cart__btn_close">X</button>
+                <div class="cart__items"></div>
+                <p class="total-price">Total price: <span class="total-price_num">0</span></p>
+            </div>
+            <nav class="header__menu">
+                <label for="menu-checkbox" class="menu__label-cross">
+                    <img src="img/cross.svg" alt="cross" class="menu__cross">
+                </label>
+                <h3 class="menu__title">MENU</h3>
+                <details class="menu__block" open>
+                    <summary class="menu__group_title">MAN</summary>
+                    <ul class="menu__group">
+                        <li><a href="#" class="menu__link">Accessories</a></li>
+                        <li><a href="#" class="menu__link">Bags</a></li>
+                        <li><a href="#" class="menu__link">Denim</a></li>
+                        <li><a href="#" class="menu__link">T-Shirts</a></li>
+                    </ul>
+                </details>
+                <details class="menu__block" open>
+                    <summary class="menu__group_title">WOMAN</summary>
+                    <ul class="menu__group">
+                        <li><a href="#" class="menu__link">Accessories</a></li>
+                        <li><a href="#" class="menu__link">Jackets & Coats</a></li>
+                        <li><a href="#" class="menu__link">Polos</a></li>
+                        <li><a href="#" class="menu__link">T-Shirts</a></li>
+                        <li><a href="#" class="menu__link">Shirts</a></li>
+                    </ul>
+                </details>
+                <details class="menu__block" open>
+                    <summary class="menu__group_title">KIDS</summary>
+                    <ul class="menu__group">
+                        <li><a href="#" class="menu__link">Accessories</a></li>
+                        <li><a href="#" class="menu__link">Jackets & Coats</a></li>
+                        <li><a href="#" class="menu__link">Polos</a></li>
+                        <li><a href="#" class="menu__link">T-Shirts</a></li>
+                        <li><a href="#" class="menu__link">Shirts</a></li>
+                        <li><a href="#" class="menu__link">Bags</a></li>
+                    </ul>
+                </details>
+            </nav>
+        </div>
+    </div>
+</header>
+<main class="main">
+    <section class="new-arrivals">
+        <div class="new-arrivals__elements container">
+            <h2 class="new-arrivals__title">NEW ARRIVALS</h2>
+            <div class="new-arrivals__links">
+                <a href="#" class="new-arrivals__link">HOME</a>
+                <p>/</p>
+                <a href="#" class="new-arrivals__link">MEN</a>
+                <p>/</p>
+                <a href="#" class="new-arrivals__link active">NEW ARRIVALS</a>
+            </div>
+        </div>
+    </section>
+    <div class="catalog container">
+        <div class="filter">
+            <div class="filter__menu">
+                <input type="checkbox" id="filter-checkbox">
+                <label for="filter-checkbox" class="filter__btn"><span class="filter__btn_text">FILTER</span><span class="filter__btn_icon _icon-pyramid"></span></label>
+                <div class="filter__menu_hide">
+                    <label for="filter-checkbox">
+                        <span class="filter__title">FILTER<span class="_icon-pyramid"></span></span>
+                    </label>
+                    <details class="filter__block" open>
+                        <summary class="filter__group_title">CATEGORY</summary>
+                        <ul class="filter__group">
+                            <li class="filter__link">Accessories</li>
+                            <li class="filter__link">Bags</li>
+                            <li class="filter__link">Denim</li>
+                            <li class="filter__link">Hoodies & Sweatshirts</li>
+                            <li class="filter__link">Jackets & Coats</li>
+                            <li class="filter__link">Polos</li>
+                            <li class="filter__link">Shirts</li>
+                            <li class="filter__link">Shoes</li>
+                            <li class="filter__link">Sweaters & Knits</li>
+                            <li class="filter__link">T-Shirts</li>
+                            <li class="filter__link">Tanks</li>
+                        </ul>
+                    </details>
+                    <details class="filter__block" open>
+                        <summary class="filter__group_title">BRAND</summary>
+                    </details>
+                    <details class="filter__block" open>
+                        <summary class="filter__group_title">DESIGNER</summary>
+                    </details>
+                </div>
+            </div>
+            <form action="#" class="filter-selectors">
+                <div class="selector-btn__trending">
+                    <input type="checkbox" id="selector__checkbox_trending">
+                    <label for="selector__checkbox_trending" class="selector__checkbox_label">
+                        <span class="selector__text">TRENDING-NOW</span><span class="selector__icon _icon-arrow-down"></span>
+                    </label>
+                    <div class="selector__trending">
+                        <p>Some trending</p>
+                    </div>
+                </div>
+                <div class="selector-btn__size">
+                    <input type="checkbox" id="selector__checkbox_size">
+                    <label for="selector__checkbox_size" class="selector__checkbox_label">
+                        <span class="selector__text">SIZE</span><span class="selector__icon _icon-arrow-down"></span>
+                    </label>
+                    <div class="selector__size">
+                        <label>
+                            <input type="checkbox"><span>XS</span>
+                        </label>
+                        <label>
+                            <input type="checkbox"><span>S</span>
+                        </label>
+                        <label>
+                            <input type="checkbox"><span>M</span>
+                        </label>
+                        <label>
+                            <input type="checkbox"><span>L</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="selector-btn__price">
+                    <input type="checkbox" id="selector__checkbox_price">
+                    <label for="selector__checkbox_price" class="selector__checkbox_label">
+                        <span class="selector__text">PRICE</span><span class="selector__icon _icon-arrow-down"></span>
+                    </label>
+                    <div class="selector__price">
+                        <label>
+                            <input type="range" min="0" max="100">
+                            <span>PRICE</span>
+                        </label>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="fet-items"></div>
+        <div class="pages">
+            <button class="pages__arrows _icon-arrow-left"></button>
+            <button class="pages__number pages__current">1</button>
+            <button class="pages__number">2</button>
+            <button class="pages__number">3</button>
+            <button class="pages__number">4</button>
+            <button class="pages__number">5</button>
+            <button class="pages__number">6</button>
+            <button class="pages__number"><span class="pages__number ellipsis">...</span>20</button>
+            <button class="pages__arrows _icon-arrow-right"></button>
+        </div>
+    </div>
+    <div class="main__ending">
+    <div class="main__ending-elements container">
+        <div class="main__ending-element">
+            <img src="img/car.svg" alt="car" class="main__ending-element_img">
+            <h3 class="main__ending-element_title">Free Delivery</h3>
+            <p class="main__ending-element_text">Worldwide delivery on all. Authorit tively morph next-generation innov tion with extensive models.</p>
+        </div>
+        <div class="main__ending-element">
+            <img src="img/discount.svg" alt="discount" class="main__ending-element_img">
+            <h3 class="main__ending-element_title">Sales & discounts</h3>
+            <p class="main__ending-element_text">Worldwide delivery on all. Authorit tively morph next-generation innov tion with extensive models.</p>
+        </div>
+        <div class="main__ending-element">
+            <img src="img/crown.svg" alt="crown" class="main__ending-element_img">
+            <h3 class="main__ending-element_title">Quality assurance</h3>
+            <p class="main__ending-element_text">Worldwide delivery on all. Authorit tively morph next-generation innov tion with extensive models.</p>
+        </div>
+    </div>
+</div>
+</main>
+<footer class="footer">
+    <div class="footer__upper">
+        <div class="upper__elements container">
+            <div class="flex-column">
+                <img src="img/face.png" alt="face" class="face__image">
+                <p class="face__underscore">“Vestibulum quis porttitor dui! Quisque viverra nunc mi, <span class="face__underscore_italic">a pulvinar purus condimentum</span>“</p>
+            </div>
+            <form action="#" class="form-subscription">
+                <fieldset class="flex-column">
+                    <legend class="subscribe__title">SUBSCRIBE</legend>
+                    <p class="subscribe__underscore">FOR OUR NEWLETTER AND PROMOTION</p>
+                    <div class="subscription__area">
+                        <label>
+                            <input type="email" placeholder="Enter Your Email" class="subscribe__input" required>
+                        </label>
+                        <button type="submit" class="subscribe__submit">Subscribe</button>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+    <div class="footer__lower">
+        <div class="container footer__elements">
+            <p class="copyright">&copy; 2021  Brand  All Rights Reserved.</p>
+            <div class="socials">
+                <a href="#" class="social _icon-facebook"></a>
+                <a href="#" class="social _icon-instagram"></a>
+                <a href="#" class="social _icon-pinterest"></a>
+                <a href="#" class="social _icon-twitter"></a>
+            </div>
+        </div>
+    </div>
+</footer>
+</body>
+</html>
