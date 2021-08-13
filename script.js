@@ -1,5 +1,5 @@
 'use strict';
-
+const API_URL = 'https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-api/master/responses';
 /**
  *  Класс каталога
  */
@@ -13,13 +13,23 @@ class GoodsList {
   }
 
   /**
+   * Получение ссылки на объект элемента каталога
+   * @param value
+   */
+  set item(value) {
+    this._item = value;
+  }
+
+  /**
    * отдача ссылки на каталог товаров
    * @returns {{id2: {img: string, balance: number, price: number, name: string, description: string}, id1: {img: string, balance: number, price: number, name: string, description: string}, id4: {img: string, balance: number, price: number, name: string, description: string}, id3: {img: string, balance: number, price: number, name: string, description: string}, id11: {img: string, balance: number, price: number, name: string, description: string}, id6: {img: string, balance: number, price: number, name: string, description: string}, id5: {img: string, balance: number, price: number, name: string, description: string}, id10: {img: string, balance: number, price: number, name: string, description: string}, id8: {img: string, balance: number, price: number, name: string, description: string}, id7: {img: string, balance: number, price: number, name: string, description: string}, id12: {img: string, balance: number, price: number, name: string, description: string}, id9: {img: string, balance: number, price: number, name: string, description: string}}}
    */
   get getCatalog() {
     return this._catalog;
   }
+
   _cart;
+  _item;
   _catalog = {
     'id1': {name: "ELLERY X M'O CAPSULE 1", img: 'fi-1.png', price: 51, balance: 2, description: 'Known for her sculptural takes on traditional tailoring, Australian arbiter of cool Kym Ellery teams up with Moda Operandi.'},
     'id8': {name: "ELLERY X M'O CAPSULE 8", img: 'fi-8.png', price: 52, balance: 3, description: 'Known for her sculptural takes on traditional tailoring, Australian arbiter of cool Kym Ellery teams up with Moda Operandi.'},
@@ -35,9 +45,25 @@ class GoodsList {
     'id10': {name: "ELLERY X M'O CAPSULE 10", img: 'fi-10.png', price: 62, balance: 3, description: 'Known for her sculptural takes on traditional tailoring, Australian arbiter of cool Kym Ellery teams up with Moda Operandi.'},
   };
 
-  constructor() {
-    this.renderGoodsList();
-    document.querySelectorAll('.fet-item__add-cart_btn').forEach(item => item.addEventListener('click',this.addItemToCart.bind(this)));
+  constructor () {
+    this.goods = [];
+    this.fetchGoods().then((data) => {
+      this.goods = [...data];
+      console.log(this.goods);
+    });
+  }
+
+  /**
+   *  * Функция демонстрирует работу с промисами. Получаемые данные в работе не используются, так как не совпадают с моей структурой данных.
+   * Загружает набор товаров в каталоге с сервера
+   * @returns {Promise<any>}
+   */
+  fetchGoods(){
+    return fetch(`${API_URL}/catalogData.json`)
+      .then(result => result.json())
+      .catch(error => {
+        console.log(error);
+      })
   }
 
   /**
@@ -46,15 +72,7 @@ class GoodsList {
    */
   addItemToCart(event){
     this._cart.addItem(event.currentTarget.dataset.id);
-    this.updateTotalQuantityIcon();
-  }
-
-  /**
-   * Обновляет значение количества товаров в корзине в иконке корзины в header.
-   */
-  updateTotalQuantityIcon(){
-    this._cart.links.totalQuantityIcon.style.display = Object.keys(this._cart.items).length > 0 ? 'block' : 'none';
-    this._cart.links.totalQuantityIcon.innerText = Object.keys(this._cart.items).length;
+    this._cart.updateTotalQuantityIcon();
   }
 
   /**
@@ -64,30 +82,9 @@ class GoodsList {
   renderGoodsList(selector = '.fet-items'){
     let renderLink = document.querySelector(selector);
     for(let item in this._catalog){
-      this._renderGoodsItem(renderLink, item, this._catalog[item]);
+      this._item._renderGoodsItem(renderLink, item, this._catalog[item]);
     }
-  }
-
-  /**
-   * Отрисовывает карточку товара
-   * @param {object} renderLink ссылка на элемент, в который будут добавлятся товары.
-   * @param {string} idItem идентификатор товара
-   * @param {object} item объект с данными о товаре
-   * @private
-   */
-  _renderGoodsItem(renderLink, idItem, item){
-    let markup = `<div class="fet-item" data-id="${idItem}">
-                  <img src="img/${item.img}" alt="${item.img}" class="fet-item__images">
-                  <div class="fet-item__info">
-                      <h5 class="fet-item__name">${item.name}</h5>
-                      <p class="fet-item__description">${item.description}</p>
-                      <p class="fet-item__price">$ ${item.price}</p>
-                  </div>
-                  <div class="fet-item__add-cart_area">
-                      <button class="_icon-cart fet-item__add-cart_btn" data-id="${idItem}"><span class="add-cart__text">Add to Cart</span></button>
-                  </div>
-              </div>`;
-    renderLink.insertAdjacentHTML('beforeend', markup);
+    document.querySelectorAll('.fet-item__add-cart_btn').forEach(item => item.addEventListener('click',this.addItemToCart.bind(this)));
   }
 }
 
@@ -95,13 +92,19 @@ class GoodsList {
  * Класс корзины
  */
 class Cart {
-  /**
-   * Отдача объекта с ссылками на элементы DOM
-   * @returns {{totalPrice: null, cartButton: null, emptyBalances: null, totalQuantityIcon: null, cartClose: null, cartItems: null, cart: null}}
-   */
-  get links() {
-    return this._links;
+/**
+ * Функция демонстрирует работу с промисами. Получаемые данные в работе не используются, так как не совпадают с моей структурой данных.
+     * Загружает набор товаров в корзине с сервера
+     * @returns {Promise<any | void>}
+*/
+  fetchGoods(){
+    return fetch(`${API_URL}/getBasket.json`)
+      .then(result => result.json())
+      .catch(error => {
+        console.log(error);
+      })
   }
+
 
   /**
    * Получение ссылки на объект класса GoodList
@@ -111,13 +114,6 @@ class Cart {
     this._goodsList = value;
   }
 
-  /**
-   * Отдача ссылки на объект с товарами в корзине
-   * @returns {object}
-   */
-  get items() {
-    return this._items;
-  }
   _goodsList;
   _items = {};
   _links = {
@@ -131,6 +127,12 @@ class Cart {
   };
 
   constructor() {
+    this.goodsInBasketCurrent = [];
+    this.fetchGoods().then((data) => {
+      this.goodsInBasketCurrent = [...data['contents']];
+      console.log(this.goodsInBasketCurrent);
+    });
+
     this._links.cartButton = document.querySelector('.header__cart');
     this._links.totalQuantityIcon = this._links.cartButton.querySelector('.header__cart_circle');
     this._links.totalQuantityIcon.style.display = 'none';
@@ -147,16 +149,28 @@ class Cart {
    * @param {string} id идентификатор товара
    */
   addItem(id){
-    if(!this._items.hasOwnProperty(id)){
-      this._items[id] = {name : '', img: '', price : 0, quantity : 1, balance : 0};
-      this._items[id].name = this._goodsList.getCatalog[id].name;
-      this._items[id].img = this._goodsList.getCatalog[id].img;
-      this._items[id].price = this._goodsList.getCatalog[id].price;
-      this._items[id].balance = this._goodsList.getCatalog[id].balance;
-    } else {
-      this._items[id].quantity += 1;
-    }
-    console.log(id);
+    fetch(`${API_URL}/addToBasket.json`)
+      .then(response => response.json())
+      .then(answer => {
+        if(answer['result']){
+          if(!this._items.hasOwnProperty(id)){
+            this._items[id] = {name : '', img: '', price : 0, quantity : 1, balance : 0};
+            this._items[id].name = this._goodsList.getCatalog[id].name;
+            this._items[id].img = this._goodsList.getCatalog[id].img;
+            this._items[id].price = this._goodsList.getCatalog[id].price;
+            this._items[id].balance = this._goodsList.getCatalog[id].balance;
+          } else {
+            this._items[id].quantity += 1;
+          }
+          this.updateTotalQuantityIcon();
+          console.log(id);
+        }else {
+          console.log("no server answer by addItem");
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      });
   }
 
   /**
@@ -196,7 +210,7 @@ class Cart {
         emptyBalance.style.display = this._items[emptyBalance.dataset.id].balance === this._items[emptyBalance.dataset.id].quantity ? 'block' : 'none';
       });
       this._links.cartItems.querySelectorAll('.add-item').forEach(btn => btn.addEventListener('click', this._plusItem.bind(this)));
-      this._links.cartItems.querySelectorAll('.minus-item').forEach(btn => btn.addEventListener('click', this._minusItem.bind(this)));
+      this._links.cartItems.querySelectorAll('.minus-item').forEach(btn => btn.addEventListener('click', this._subtractItem.bind(this)));
       this._links.cartItems.querySelectorAll('.remove-item').forEach(btn => btn.addEventListener('click', this._removeItem.bind(this)));
     }
   }
@@ -207,9 +221,21 @@ class Cart {
    * @private
    */
   _removeItem(event){
-    delete this._items[event.target.dataset.id];
-    this._renderCart();
-    this._goodsList.updateTotalQuantityIcon();
+    fetch(`${API_URL}/deleteFromBasket.json`)
+      .then(response => response.json())
+      .then(answer => {
+        if(answer['result']){
+          delete this._items[event.target.dataset.id];
+          this._renderCart();
+          this._totalPrice();
+          this.updateTotalQuantityIcon();
+        }else {
+          console.log("no server answer by removeItem");
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      });
   }
 
   /**
@@ -217,7 +243,7 @@ class Cart {
    * @param {object} event событие клика на кнопку
    * @private
    */
-  _minusItem(event){
+  _subtractItem(event){
     this._items[event.target.dataset.id].quantity--;
     this._items[event.target.dataset.id].quantity < 1 ? this._removeItem(event) : this._renderCart();
   }
@@ -240,16 +266,54 @@ class Cart {
    */
   _totalPrice(){
     let totalPrice = 0;
-    for(let item in this._items){
+
+    if(Object.keys(this._items).length > 0){
+      for(let item in this._items){
       totalPrice += this._items[item].price * this._items[item].quantity;
-    }
+    }}
     this._links.totalPrice.innerText = totalPrice;
+  }
+
+  /**
+   * Обновляет значение количества товаров в корзине в иконке корзины в header.
+   */
+  updateTotalQuantityIcon(){
+    this._links.totalQuantityIcon.style.display = Object.keys(this._items).length > 0 ? 'block' : 'none';
+    this._links.totalQuantityIcon.innerText = Object.keys(this._items).length;
+  }
+}
+
+class Item {
+
+  /**
+   * Отрисовывает карточку товара
+   * @param {object} renderLink ссылка на элемент, в который будут добавлятся товары.
+   * @param {string} idItem идентификатор товара
+   * @param {object} item объект с данными о товаре
+   * @private
+   */
+  _renderGoodsItem(renderLink, idItem, item){
+    let markup = `<div class="fet-item" data-id="${idItem}">
+                  <img src="img/${item.img}" alt="${item.img}" class="fet-item__images">
+                  <div class="fet-item__info">
+                      <h5 class="fet-item__name">${item.name}</h5>
+                      <p class="fet-item__description">${item.description}</p>
+                      <p class="fet-item__price">$ ${item.price}</p>
+                  </div>
+                  <div class="fet-item__add-cart_area">
+                      <button class="_icon-cart fet-item__add-cart_btn" data-id="${idItem}"><span class="add-cart__text">Add to Cart</span></button>
+                  </div>
+              </div>`;
+    renderLink.insertAdjacentHTML('beforeend', markup);
   }
 }
 
 window.addEventListener('load',() => {
+  const item = new Item();
   const goodsList = new GoodsList();
   const cart = new Cart();
   cart.goodsList = goodsList;
+  goodsList.item = item;
+  goodsList.renderGoodsList();
   goodsList.cart = cart;
 });
