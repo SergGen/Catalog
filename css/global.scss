@@ -1,0 +1,38 @@
+@import "icon-fonts.css";
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,900;1,400&display=swap');
+@import "reset.css";
+
+html {
+  font-size: 14px;
+  line-height: normal;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  letter-spacing: normal;
+  color: black;
+  body {
+    font-family: Lato, sans-serif;
+    .container {
+      margin: 0 auto;
+      width: 1140px;
+    }
+  }
+}
+
+*:hover {
+  transition: 0.3s;
+}
+
+@media only screen and (max-width: 1140px) {
+  html {
+    body {
+      .container {
+        width: 97%;
+      }
+    }
+  }
+
+}
+
+@import "header.scss";
+@import "footer.scss";

@@ -1,0 +1,39 @@
+.new-arrivals {
+  width: 100%;
+  background-color: #f8f3f4;
+  .new-arrivals__elements {
+    min-height: 148px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .new-arrivals__title {
+      color: #f16d7f;
+      font-size: 24px;
+    }
+    .new-arrivals__links {
+      width: 210px;
+      display: flex;
+      justify-content: space-between;
+      font-size: 14px;
+      font-weight: 300;
+      .new-arrivals__link {
+        color: #636363;
+        cursor: pointer;
+      }
+      .active {
+        font-weight: bold;
+        color: #f16d7f;
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 375px) {
+  .new-arrivals {
+    .new-arrivals__elements {
+      padding: 5px 0 24px;
+      flex-direction: column;
+      justify-content: space-evenly;
+    }
+  }
+}

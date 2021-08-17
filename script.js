@@ -4,6 +4,7 @@ const API_URL = 'https://raw.githubusercontent.com/GeekBrainsTutorial/online-sto
  *  Класс каталога
  */
 class GoodsList {
+  _searchLine;
   /**
    * Получение ссылки на объект корзины
    * @param value
@@ -51,6 +52,38 @@ class GoodsList {
       this.goods = [...data];
       console.log(this.goods);
     });
+    this._searchLine = document.querySelector('.search_items');
+    this._searchLine.addEventListener('input', this._search.bind(this));
+    document.querySelector('.header__search').addEventListener('click', this._showSearch.bind(this));
+  }
+
+  /**
+   * Поиск товаров в каталоге
+   * @private
+   */
+  _search() {
+    let itemToSearch = this._searchLine.value;
+    let regExp = new RegExp(itemToSearch,'ig');
+    let goodsToSearch = {};
+    for(let item in this._catalog){
+      if(regExp.test(this._catalog[item].name)){
+        goodsToSearch[item] = {name : '', img: '', price : 0, balance : 0, description : ''};
+        goodsToSearch[item].name = this._catalog[item].name;
+        goodsToSearch[item].img = this._catalog[item].img;
+        goodsToSearch[item].price = this._catalog[item].price;
+        goodsToSearch[item].balance = this._catalog[item].balance;
+        goodsToSearch[item].description = this._catalog[item].description;
+      }
+    }
+    this.renderGoodsList(goodsToSearch);
+  }
+
+  /**
+   * Скрывает/показывает строку поиска
+   * @private
+   */
+  _showSearch(){
+    this._searchLine.style.display = this._searchLine.style.display === 'block' ? 'none' : 'block';
   }
 
   /**
@@ -78,13 +111,18 @@ class GoodsList {
   /**
    * Отрисовывает товары в заданный элемент.
    * @param {string} selector имя селектора элемента, в который будут добавлятся товары
+   * @param {Object} filteredGoods объект с найденными товарами по строке поиска
    */
-  renderGoodsList(selector = '.fet-items'){
+  renderGoodsList(filteredGoods = this._catalog, selector = '.fet-items'){
+    // console.log(filteredGoods);
     let renderLink = document.querySelector(selector);
-    for(let item in this._catalog){
-      this._item._renderGoodsItem(renderLink, item, this._catalog[item]);
+    renderLink.innerHTML = '';
+    if(Object.keys(filteredGoods).length > 0){
+      for(let item in filteredGoods){
+        this._item._renderGoodsItem(renderLink, item, filteredGoods[item]);
+      }
+      document.querySelectorAll('.fet-item__add-cart_btn').forEach(item => item.addEventListener('click',this.addItemToCart.bind(this)));
     }
-    document.querySelectorAll('.fet-item__add-cart_btn').forEach(item => item.addEventListener('click',this.addItemToCart.bind(this)));
   }
 }
 
