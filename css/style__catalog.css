@@ -55,7 +55,6 @@ html body .container {
   cursor: pointer;
 }
 .header .header__elements .header__left .search_items {
-  display: none;
   min-width: 200px;
   height: 35px;
   padding: 0 10px;
@@ -90,7 +89,6 @@ html body .container {
   height: 29px;
 }
 .header .header__elements .header__right .header__cart .header__cart_circle {
-  display: none;
   width: 19px;
   height: 19px;
   position: absolute;
@@ -104,7 +102,6 @@ html body .container {
   color: #ffffff;
 }
 .header .header__elements .header__right .cart {
-  display: none;
   background-color: grey;
   position: fixed;
   top: 50vh;
