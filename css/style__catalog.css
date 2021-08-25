@@ -82,6 +82,7 @@ html body .container {
   height: 29px;
 }
 .header .header__elements .header__right .header__cart {
+  cursor: pointer;
   position: relative;
 }
 .header .header__elements .header__right .header__cart .header__cart_img {
@@ -115,6 +116,7 @@ html body .container {
 .header .header__elements .header__right .cart .cart__btn_close {
   position: absolute;
   right: 10px;
+  cursor: pointer;
 }
 .header .header__elements .header__right .cart .cart__items .cart__item {
   display: flex;
@@ -133,6 +135,9 @@ html body .container {
 }
 .header .header__elements .header__right .cart .cart__items .cart__item .cart__max-quantity {
   display: none;
+}
+.header .header__elements .header__right .cart .cart__items .cart__item .cart__btns button {
+  cursor: pointer;
 }
 .header .header__elements .header__right #menu-checkbox:not(:checked) ~ .header__menu {
   display: none;

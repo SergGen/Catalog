@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="css/style__catalog.css" rel="stylesheet">
     <script src="https://unpkg.com/vue@next"></script>
-<!--    <script src="./vue.js"></script>-->
+<!--    <script src="./vue.global.js"></script>-->
     <script defer src="./script-vue.js"></script>
     <title>Shop-Catalog</title>
 </head>
@@ -14,10 +14,9 @@
     <div class="container header__elements">
         <div class="header__left">
             <a href="#" class="header__logo"><img src="img/Logo.png" alt="logo"></a>
-            <button class="header__search _icon-search" @click="showHide.search = !showHide.search"></button>
-            <label v-show="showHide.search">
-                <input type="text" class="search_items" v-model.trim="itemToSearch">
-            </label>
+
+            <search-comp @searching="inToSearch"></search-comp>
+
         </div>
         <div class="header__right">
             <input type="checkbox" id="menu-checkbox">
@@ -25,32 +24,9 @@
                 <img src="img/burger.svg" alt="burger" class="header__menu-button">
             </label>
             <a href="#" class="header__profile"><img src="img/man.svg" alt="man" class="header__profile_img"></a>
-            <a href="#" class="header__cart" @click="showHide.cart = !showHide.cart">
-                <img src="img/cart.svg" alt="cart" class="header__cart_img">
-                <span class="header__cart_circle" v-show="showHide.cartQuantity">{{cartItems.length}}</span>
-            </a>
-            <div v-show="showHide.cart" class="cart">
-                <button class="cart__btn_close" @click="showHide.cart = !showHide.cart">X</button>
-                <div class="cart__items">
 
+            <cart-comp :catalog-render="catalogRender" :cart-items="cartItems" @adding="addItem($event)" @removing="removeItem($event)" @subtracting="subtractItem($event)"></cart-comp>
 
-                    <div class="cart__item" v-for="(item,i) in cartItems" :data-id="item.id">
-                        <div class="cart__img_box"><img :src="'./img/'+item.img" :alt="item.img"></div>
-                        <div class="cart__info_box"><p class="cart__item_name">Title: {{item.name}}</p>
-                            <p class="cart__item_price">Price: $ {{item.price}}</p>
-                            <p class="cart__item_quantity">Quantity: {{item.quantity}}
-<!--                                <span v-if="maxim(item)" :data-id="item.id" class="cart__max-quantity">На складе больше нет.</span>-->
-                            </p></div>
-                        <div class="cart__btns">
-                            <button class="add-item" @click="addItem(item.id)" :data-id="item.id">+</button>
-                            <button  class="minus-item" @click="subtractItem(item,i)" :data-id="item.id">-</button>
-                            <button class="remove-item" @click="removeItem(item,i)" :data-id="item.id">X</button></div>
-                    </div>
-
-
-                </div>
-                <p class="total-price">Total price: <span class="total-price_num">{{totalPrice}}</span></p>
-            </div>
             <nav class="header__menu">
                 <label for="menu-checkbox" class="menu__label-cross">
                     <img src="img/cross.svg" alt="cross" class="menu__cross">
@@ -182,19 +158,7 @@
         </div>
         <div class="fet-items">
 
-
-            <div class="fet-item" v-for="item in catalogRender" :data-id="item.id">
-                <img :src="'img/'+item.img" :alt="item.img" class="fet-item__images">
-                <div class="fet-item__info">
-                    <h5 class="fet-item__name">{{item.name}}</h5>
-                    <p class="fet-item__description">{{item.description}}</p>
-                    <p class="fet-item__price">$ {{item.price}}</p>
-                </div>
-                <div class="fet-item__add-cart_area">
-                    <button class="_icon-cart fet-item__add-cart_btn" @click="addItem(item.id)" :data-id="item.id"><span class="add-cart__text">Add to Cart</span></button>
-                </div>
-            </div>
-
+            <items-catalog :catalog-render="catalogRender" @adding="addItem($event)"></items-catalog>
 
         </div>
         <div class="pages">
