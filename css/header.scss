@@ -50,6 +50,7 @@
         height: 29px;
       }
       .header__cart {
+        cursor: pointer;
         position: relative;
         .header__cart_img {
           width: 32px;
@@ -82,6 +83,7 @@
         .cart__btn_close {
           position: absolute;
           right: 10px;
+          cursor: pointer;
         }
         .cart__items {
           .cart__item {
@@ -100,6 +102,11 @@
             }
             .cart__max-quantity{
               display: none;
+            }
+            .cart__btns{
+              button {
+                cursor: pointer;
+              }
             }
           }
         }
