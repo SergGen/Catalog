@@ -103,30 +103,29 @@ Vue.createApp({
     ItemsCatalog
   },
   data: () => ({
-    apiUrl: 'https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-api/master/responses',
-    catalogRender: [
-      {id: 'id1' ,name: "ELLERY X M'O CAPSULE 1", img: 'fi-1.png', price: 51, balance: 2, description: 'Known for her sculptural takes on traditional tailoring, Australian arbiter of cool Kym Ellery teams up with Moda Operandi.'},
-      {id: 'id8' ,name: "ELLERY X M'O CAPSULE 8", img: 'fi-8.png', price: 52, balance: 3, description: 'Known for her sculptural takes on traditional tailoring, Australian arbiter of cool Kym Ellery teams up with Moda Operandi.'},
-      {id: 'id3' ,name: "ELLERY X M'O CAPSULE 3", img: 'fi-3.png', price: 53, balance: 4, description: 'Known for her sculptural takes on traditional tailoring, Australian arbiter of cool Kym Ellery teams up with Moda Operandi.'},
-      {id: 'id4' ,name: "ELLERY X M'O CAPSULE 4", img: 'fi-4.png', price: 54, balance: 5, description: 'Known for her sculptural takes on traditional tailoring, Australian arbiter of cool Kym Ellery teams up with Moda Operandi.'},
-      {id: 'id9' ,name: "ELLERY X M'O CAPSULE 9", img: 'fi-9.png', price: 55, balance: 6, description: 'Known for her sculptural takes on traditional tailoring, Australian arbiter of cool Kym Ellery teams up with Moda Operandi.'},
-      {id: 'id11' ,name: "ELLERY X M'O CAPSULE 11", img: 'fi-11.png', price: 56, balance: 7, description: 'Known for her sculptural takes on traditional tailoring, Australian arbiter of cool Kym Ellery teams up with Moda Operandi.'},
-      {id: 'id7' ,name: "ELLERY X M'O CAPSULE 7", img: 'fi-7.png', price: 57, balance: 2, description: 'Known for her sculptural takes on traditional tailoring, Australian arbiter of cool Kym Ellery teams up with Moda Operandi.'},
-      {id: 'id2' ,name: "ELLERY X M'O CAPSULE 2", img: 'fi-2.png', price: 58, balance: 3, description: 'Known for her sculptural takes on traditional tailoring, Australian arbiter of cool Kym Ellery teams up with Moda Operandi.'},
-      {id: 'id12' ,name: "ELLERY X M'O CAPSULE 12", img: 'fi-12.png', price: 59, balance: 4, description: 'Known for her sculptural takes on traditional tailoring, Australian arbiter of cool Kym Ellery teams up with Moda Operandi.'},
-      {id: 'id5' ,name: "ELLERY X M'O CAPSULE 5", img: 'fi-5.png', price: 60, balance: 5, description: 'Known for her sculptural takes on traditional tailoring, Australian arbiter of cool Kym Ellery teams up with Moda Operandi.'},
-      {id: 'id6' ,name: "ELLERY X M'O CAPSULE 6", img: 'fi-6.png', price: 61, balance: 8, description: 'Known for her sculptural takes on traditional tailoring, Australian arbiter of cool Kym Ellery teams up with Moda Operandi.'},
-      {id: 'id10' ,name: "ELLERY X M'O CAPSULE 10", img: 'fi-10.png', price: 62, balance: 3, description: 'Known for her sculptural takes on traditional tailoring, Australian arbiter of cool Kym Ellery teams up with Moda Operandi.'},
-    ],
+    apiUrl: 'http://localhost:3000',
+    catalogRender: {},
     catalogOrigin: [],
     itemToSearch: '',
-    cartItems: []
+    cartItems: [],
   }),
+  created(){
+    this.fetchCatalog();
+  },
+  mounted(){
+
+  },
   methods: {
     inToSearch(string){
       this.itemToSearch = string;
     },
-
+    fetchCatalog(){
+      fetch('http://localhost:3000/catalog', {mode: 'no-cors'})
+        .then(response => response.json())
+        .then(answer => {
+          this.catalogRender = answer;
+        });
+    },
     search() {
       if(this.catalogOrigin.length === 0){
         this.catalogOrigin = this.catalogRender.slice();
@@ -139,7 +138,8 @@ Vue.createApp({
       }
     },
     addItem(idItemAdd){
-      fetch(`${this.apiUrl}/addToBasket.json`)
+      let data = this.reqConfig(this.catalogRender.filter(item => item.id === idItemAdd)[0]);
+      fetch(`${this.apiUrl}/add`, data)
         .then(response => response.json())
         .then(answer => {
           if(answer['result']){
@@ -165,7 +165,8 @@ Vue.createApp({
         });
     },
     removeItem(idItemRm){
-      fetch(`${this.apiUrl}/deleteFromBasket.json`)
+      let data = this.reqConfig(this.catalogRender.filter(item => item.id === idItemRm)[0]);
+      fetch(`${this.apiUrl}/remove`, data)
         .then(response => response.json())
         .then(answer => {
           if(answer['result']){
@@ -178,12 +179,40 @@ Vue.createApp({
           console.log(error);
         });
     },
+
     subtractItem(items){
       items.item.quantity--;
       if(items.item.quantity < 1){
         this.removeItem(items.idItemRm);
       }
+      let data = this.reqConfig(this.catalogRender.filter(item => item.id === items.idItemRm)[0]);
+      fetch(`${this.apiUrl}/subtract`, data)
+        .then(response => response.json())
+        .then(answer => {
+          if(answer['result']){
+          }else {
+            console.log("no server answer by removeItem");
+          }
+        })
+        .catch(error => {
+          console.log(error);
+        });
     },
+    reqConfig(data){
+      return {
+        method: 'POST', // *GET, POST, PUT, DELETE, etc.
+        //mode: 'no-cors', // no-cors, *cors, same-origin
+        //cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+        //credentials: 'same-origin', // include, *same-origin, omit
+        headers: {
+          'Content-Type': 'application/json'
+          // 'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        //redirect: 'follow', // manual, *follow, error
+        //referrerPolicy: 'no-referrer', // no-referrer, *client
+        body: JSON.stringify('!!!111!!!') // body data type must match "Content-Type" header
+      }
+    }
   },
   watch:{
     itemToSearch(){
