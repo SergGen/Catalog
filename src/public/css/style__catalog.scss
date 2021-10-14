@@ -1,7 +1,7 @@
-@import "global.scss";
+@import "global";
 
 .main {
-  @import "new-arrivals.scss";
+  @import "new-arrivals";
   .catalog  {
     padding: 51px 0 97px;
     display: flex;
@@ -183,7 +183,7 @@
         }
       }
     }
-    @import "fet-images.scss";
+    @import "fet-images";
   }
   .pages {
     border: 1px solid #ebebeb;
@@ -224,7 +224,7 @@
       color: #ef5b70;
     }
   }
-  @import "ending_black.scss";
+  @import "ending_black";
 }
 
 @media only screen and (max-width: 1140px) {
